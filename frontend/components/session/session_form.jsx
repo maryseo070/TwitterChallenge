@@ -5,11 +5,10 @@ class SessionForm extends Component {
     super(props);
     this.state= {
       username: "",
-      password: "",
-      f_name: "",
-      l_name: ""
+      password: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderErrors = this.renderErrors.bind(this);
   }
 
   handleSubmit(e) {
@@ -24,9 +23,22 @@ class SessionForm extends Component {
     };
   }
 
+  renderErrors() {
+      return(
+        <ul>
+          {this.props.errors.map((error, i) => (
+            <li className="rendered-errors" key={`error-${i}`}>
+              {error}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
   render () {
     return (
       <div>
+        {this.renderErrors()}
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"

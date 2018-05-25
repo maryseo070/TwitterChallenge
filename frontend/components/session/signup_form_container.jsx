@@ -1,5 +1,5 @@
 import React from 'react';
-import { login, clearErrors } from '../../actions/session_actions';
+import { signup, clearErrors } from '../../actions/session_actions';
 import SessionForm from './session_form';
 import { connect } from 'react-redux';
 
@@ -11,9 +11,9 @@ const msp = state => {
 
 const mdp = dispatch => {
   return {
-    processForm: (user) => dispatch(login(user)),
+    processForm: user => dispatch(signup(user)),
     clearErrors: () => dispatch(clearErrors())
   };
 };
 
-export const SessionFormContainer = connect(msp, mdp)(SessionForm);
+export const SignUpFormContainer = connect(msp, mdp)(SessionForm);

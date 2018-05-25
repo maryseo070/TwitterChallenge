@@ -173,6 +173,8 @@ var _main = __webpack_require__(/*! ./main/main */ "./frontend/components/main/m
 
 var _main2 = _interopRequireDefault(_main);
 
+var _signup_form_container = __webpack_require__(/*! ./session/signup_form_container */ "./frontend/components/session/signup_form_container.jsx");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
@@ -180,6 +182,7 @@ var App = function App() {
     'div',
     null,
     _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _main2.default }),
+    _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/signup', component: _signup_form_container.SignUpFormContainer }),
     _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/login', component: _login_form_container.SessionFormContainer })
   );
 };
@@ -297,7 +300,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var msp = function msp(state) {
   return {
-    errors: state.errors
+    errors: state.sessionErrors
   };
 };
 
@@ -356,11 +359,10 @@ var SessionForm = function (_Component) {
 
     _this.state = {
       username: "",
-      password: "",
-      f_name: "",
-      l_name: ""
+      password: ""
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.renderErrors = _this.renderErrors.bind(_this);
     return _this;
   }
 
@@ -385,11 +387,27 @@ var SessionForm = function (_Component) {
       };
     }
   }, {
+    key: "renderErrors",
+    value: function renderErrors() {
+      return _react2.default.createElement(
+        "ul",
+        null,
+        this.props.errors.map(function (error, i) {
+          return _react2.default.createElement(
+            "li",
+            { className: "rendered-errors", key: "error-" + i },
+            error
+          );
+        })
+      );
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react2.default.createElement(
         "div",
         null,
+        this.renderErrors(),
         _react2.default.createElement(
           "form",
           { onSubmit: this.handleSubmit },
@@ -413,6 +431,56 @@ var SessionForm = function (_Component) {
 }(_react.Component);
 
 exports.default = SessionForm;
+
+/***/ }),
+
+/***/ "./frontend/components/session/signup_form_container.jsx":
+/*!***************************************************************!*\
+  !*** ./frontend/components/session/signup_form_container.jsx ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SignUpFormContainer = undefined;
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _session_actions = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+
+var _session_form = __webpack_require__(/*! ./session_form */ "./frontend/components/session/session_form.jsx");
+
+var _session_form2 = _interopRequireDefault(_session_form);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var msp = function msp(state) {
+  return {
+    errors: state.sessionErrors
+  };
+};
+
+var mdp = function mdp(dispatch) {
+  return {
+    processForm: function processForm(user) {
+      return dispatch((0, _session_actions.signup)(user));
+    },
+    clearErrors: function clearErrors() {
+      return dispatch((0, _session_actions.clearErrors)());
+    }
+  };
+};
+
+var SignUpFormContainer = exports.SignUpFormContainer = (0, _reactRedux.connect)(msp, mdp)(_session_form2.default);
 
 /***/ }),
 

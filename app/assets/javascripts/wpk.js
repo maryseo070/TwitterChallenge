@@ -251,6 +251,10 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -276,7 +280,12 @@ var Main = function (_Component) {
   }
 
   _createClass(Main, [{
-    key: "updateField",
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      console.log(this.props.tweets);
+    }
+  }, {
+    key: 'updateField',
     value: function updateField() {
       var _this2 = this;
 
@@ -285,34 +294,59 @@ var Main = function (_Component) {
       };
     }
   }, {
-    key: "handleSubmit",
+    key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
       this.props.searchHandles(this.state.handle);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
+      var retrievedTweets = this.props.tweets.map(function (tweet) {
+        return _react2.default.createElement(
+          'section',
+          null,
+          _react2.default.createElement(
+            'div',
+            null,
+            tweet.text
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            tweet.created_at
+          )
+        );
+      });
+
       return _react2.default.createElement(
-        "div",
+        'div',
         null,
-        "main",
+        'main',
         _react2.default.createElement(
-          "form",
+          'form',
           { onSubmit: this.handleSubmit },
-          _react2.default.createElement("input", {
-            type: "text",
-            placeholder: "Twitter Handle to Search",
+          _react2.default.createElement('input', {
+            type: 'text',
+            placeholder: 'Twitter Handle to Search',
             onChange: this.updateField(),
             value: this.state.handle }),
-          _react2.default.createElement("input", { type: "submit" })
-        )
+          _react2.default.createElement('input', { type: 'submit' })
+        ),
+        retrievedTweets
       );
     }
   }]);
 
   return Main;
 }(_react.Component);
+
+Main.propType = {
+  tweets: _propTypes2.default.array
+};
+Main.defaultProps = {
+  tweets: []
+};
 
 exports.default = Main;
 
@@ -348,7 +382,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var msp = function msp(state) {
   return {
-    tweets: state.tweets
+    tweets: Object.values(state.tweets)
   };
 };
 
@@ -883,7 +917,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var searchHandles = exports.searchHandles = function searchHandles(handle) {
-  debugger;
   return $.ajax({
     method: "GET",
     url: "/api/clients",

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Main extends Component {
   constructor(props){
@@ -10,6 +11,9 @@ class Main extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.props.tweets)
+  }
 
   updateField() {
     return (e) => {
@@ -24,6 +28,15 @@ class Main extends Component {
 
 
   render () {
+    let retrievedTweets = this.props.tweets.map((tweet) => {
+    return (
+        <section>
+        <div>{tweet.text}</div>
+        <div>{tweet.created_at}</div>
+      </section>
+    );
+    });
+
     return (
       <div>main
         <form onSubmit={this.handleSubmit}>
@@ -36,9 +49,18 @@ class Main extends Component {
           <input type="submit">
           </input>
         </form>
+        {retrievedTweets}
       </div>
-    )
+    );
   }
 }
+
+Main.propType = {
+  tweets: PropTypes.array
+};
+Main.defaultProps = {
+  tweets: []
+};
+
 
 export default Main;

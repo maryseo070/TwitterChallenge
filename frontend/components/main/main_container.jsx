@@ -5,7 +5,7 @@ import { searchHandles } from '../../actions/client_actions';
 
 const msp = state => {
   return {
-    tweets: state.tweets
+    tweets: Object.values(state.tweets)
   };
 };
 

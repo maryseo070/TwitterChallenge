@@ -11,10 +11,6 @@ class Main extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    console.log(this.props.tweets)
-  }
-
   updateField() {
     return (e) => {
       this.setState({handle: e.currentTarget.value});
@@ -29,10 +25,13 @@ class Main extends Component {
 
   render () {
     let retrievedTweets = this.props.tweets.map((tweet) => {
+      let date = tweet.created_at;
+      date = Date.parse(date);
+      date = new Date(date).toString();
     return (
         <section>
         <div>{tweet.text}</div>
-        <div>{tweet.created_at}</div>
+        <div>{date}</div>
       </section>
     );
     });

@@ -280,11 +280,6 @@ var Main = function (_Component) {
   }
 
   _createClass(Main, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      console.log(this.props.tweets);
-    }
-  }, {
     key: 'updateField',
     value: function updateField() {
       var _this2 = this;
@@ -303,6 +298,9 @@ var Main = function (_Component) {
     key: 'render',
     value: function render() {
       var retrievedTweets = this.props.tweets.map(function (tweet) {
+        var date = tweet.created_at;
+        date = Date.parse(date);
+        date = new Date(date).toString();
         return _react2.default.createElement(
           'section',
           null,
@@ -314,7 +312,7 @@ var Main = function (_Component) {
           _react2.default.createElement(
             'div',
             null,
-            tweet.created_at
+            date
           )
         );
       });

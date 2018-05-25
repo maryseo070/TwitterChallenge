@@ -71,6 +71,46 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/client_actions.js":
+/*!********************************************!*\
+  !*** ./frontend/actions/client_actions.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.searchHandles = exports.receiveTweets = exports.RECEIVE_TWEETS = undefined;
+
+var _client_api_util = __webpack_require__(/*! ../util/client_api_util */ "./frontend/util/client_api_util.js");
+
+var ClientAPIUtil = _interopRequireWildcard(_client_api_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var RECEIVE_TWEETS = exports.RECEIVE_TWEETS = "RECEIVE_TWEETS";
+
+var receiveTweets = exports.receiveTweets = function receiveTweets(tweets) {
+  return {
+    type: RECEIVE_TWEETS,
+    tweets: tweets
+  };
+};
+
+var searchHandles = exports.searchHandles = function searchHandles(handle) {
+  return function (dispatch) {
+    return ClientAPIUtil.searchHandles(handle).then(function (tweets) {
+      return dispatch(receiveTweets(tweets));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/session_actions.js":
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
@@ -169,9 +209,9 @@ var _route_util = __webpack_require__(/*! ../util/route_util */ "./frontend/util
 
 var _login_form_container = __webpack_require__(/*! ./session/login_form_container */ "./frontend/components/session/login_form_container.jsx");
 
-var _main = __webpack_require__(/*! ./main/main */ "./frontend/components/main/main.jsx");
+var _main_container = __webpack_require__(/*! ./main/main_container */ "./frontend/components/main/main_container.jsx");
 
-var _main2 = _interopRequireDefault(_main);
+var _main_container2 = _interopRequireDefault(_main_container);
 
 var _signup_form_container = __webpack_require__(/*! ./session/signup_form_container */ "./frontend/components/session/signup_form_container.jsx");
 
@@ -181,7 +221,7 @@ var App = function App() {
   return _react2.default.createElement(
     'div',
     null,
-    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _main2.default }),
+    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _main_container2.default }),
     _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/signup', component: _signup_form_container.SignUpFormContainer }),
     _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/login', component: _login_form_container.SessionFormContainer })
   );
@@ -205,21 +245,122 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Main = function Main() {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'Main Page'
-  );
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Main = function (_Component) {
+  _inherits(Main, _Component);
+
+  function Main(props) {
+    _classCallCheck(this, Main);
+
+    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+
+    _this.state = {
+      handle: ""
+    };
+    _this.updateField = _this.updateField.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  _createClass(Main, [{
+    key: "updateField",
+    value: function updateField() {
+      var _this2 = this;
+
+      return function (e) {
+        _this2.setState({ handle: e.currentTarget.value });
+      };
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      this.props.searchHandles(this.state.handle);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        null,
+        "main",
+        _react2.default.createElement(
+          "form",
+          { onSubmit: this.handleSubmit },
+          _react2.default.createElement("input", {
+            type: "text",
+            placeholder: "Twitter Handle to Search",
+            onChange: this.updateField(),
+            value: this.state.handle }),
+          _react2.default.createElement("input", { type: "submit" })
+        )
+      );
+    }
+  }]);
+
+  return Main;
+}(_react.Component);
 
 exports.default = Main;
+
+/***/ }),
+
+/***/ "./frontend/components/main/main_container.jsx":
+/*!*****************************************************!*\
+  !*** ./frontend/components/main/main_container.jsx ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _main = __webpack_require__(/*! ./main */ "./frontend/components/main/main.jsx");
+
+var _main2 = _interopRequireDefault(_main);
+
+var _client_actions = __webpack_require__(/*! ../../actions/client_actions */ "./frontend/actions/client_actions.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var msp = function msp(state) {
+  return {
+    tweets: state.tweets
+  };
+};
+
+var mdp = function mdp(dispatch) {
+  return {
+    searchHandles: function searchHandles(handle) {
+      return dispatch((0, _client_actions.searchHandles)(handle));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(msp, mdp)(_main2.default);
 
 /***/ }),
 
@@ -531,6 +672,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /***/ }),
 
+/***/ "./frontend/reducers/clients_reducer.js":
+/*!**********************************************!*\
+  !*** ./frontend/reducers/clients_reducer.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _client_actions = __webpack_require__(/*! ../actions/client_actions */ "./frontend/actions/client_actions.js");
+
+var _lodash = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+
+var clientsReducer = function clientsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  Object.freeze(state);
+  switch (action.type) {
+    case _client_actions.RECEIVE_TWEETS:
+      return action.tweets;
+    default:
+      return state;
+  }
+};
+
+exports.default = clientsReducer;
+
+/***/ }),
+
 /***/ "./frontend/reducers/root_reducer.js":
 /*!*******************************************!*\
   !*** ./frontend/reducers/root_reducer.js ***!
@@ -555,14 +731,18 @@ var _session_errors_reducer = __webpack_require__(/*! ./session_errors_reducer *
 
 var _session_errors_reducer2 = _interopRequireDefault(_session_errors_reducer);
 
+var _clients_reducer = __webpack_require__(/*! ./clients_reducer */ "./frontend/reducers/clients_reducer.js");
+
+var _clients_reducer2 = _interopRequireDefault(_clients_reducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import errorsReducer from './errors_reducer';
 var rootReducer = (0, _redux.combineReducers)({
   session: _sessions_reducer2.default,
-  sessionErrors: _session_errors_reducer2.default
+  sessionErrors: _session_errors_reducer2.default,
+  tweets: _clients_reducer2.default
 });
-
+// import errorsReducer from './errors_reducer';
 exports.default = rootReducer;
 
 /***/ }),
@@ -686,6 +866,30 @@ var configureStore = function configureStore() {
 };
 
 exports.default = configureStore;
+
+/***/ }),
+
+/***/ "./frontend/util/client_api_util.js":
+/*!******************************************!*\
+  !*** ./frontend/util/client_api_util.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var searchHandles = exports.searchHandles = function searchHandles(handle) {
+  debugger;
+  return $.ajax({
+    method: "GET",
+    url: "/api/clients",
+    data: { handle: handle }
+  });
+};
 
 /***/ }),
 

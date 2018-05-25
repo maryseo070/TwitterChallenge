@@ -14,7 +14,7 @@ class SessionForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const user = Object.assign({}, this.state);
-    this.props.processForm(user).then( (u) => this.props.history.push('/'));
+    this.props.processForm(user).then( (u) => this.props.history.push('/main'));
   }
 
   updateField(field){

@@ -4,13 +4,12 @@ import { AuthRoute, ProtectedRoute } from '../util/route_util';
 import { SessionFormContainer } from './session/login_form_container';
 import Main from './main/main_container';
 import { SignUpFormContainer } from './session/signup_form_container';
-
+import Home from './home/home'
 const App = () => {
   return (
     <div>
-      <Route exact path='/' component={ Main } />
-      <AuthRoute exact path='/signup' component={ SignUpFormContainer } />
-      <AuthRoute exact path='/login' component={ SessionFormContainer } />
+      <ProtectedRoute exact path='/main' component={ Main } />
+      <AuthRoute exact path='/session' component={ Home } />
     </div>
   );
 };

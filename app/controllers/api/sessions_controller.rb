@@ -1,10 +1,9 @@
 class Api::SessionsController < ApplicationController
   def create
     @user = User.find_by_credentials(params[:user][:username], params[:user][:password])
-    debugger
     if @user
       log_in(@user)
-      # render template: 'api/clients/index'
+      render template: 'api/users/_user'
     else
       render json: ["Invalid credentials"], status: 403
     end

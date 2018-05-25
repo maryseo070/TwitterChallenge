@@ -215,19 +215,67 @@ var _main_container2 = _interopRequireDefault(_main_container);
 
 var _signup_form_container = __webpack_require__(/*! ./session/signup_form_container */ "./frontend/components/session/signup_form_container.jsx");
 
+var _home = __webpack_require__(/*! ./home/home */ "./frontend/components/home/home.jsx");
+
+var _home2 = _interopRequireDefault(_home);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
   return _react2.default.createElement(
     'div',
     null,
-    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _main_container2.default }),
-    _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/signup', component: _signup_form_container.SignUpFormContainer }),
-    _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/login', component: _login_form_container.SessionFormContainer })
+    _react2.default.createElement(_route_util.ProtectedRoute, { exact: true, path: '/main', component: _main_container2.default }),
+    _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/session', component: _home2.default })
   );
 };
 
 exports.default = App;
+
+/***/ }),
+
+/***/ "./frontend/components/home/home.jsx":
+/*!*******************************************!*\
+  !*** ./frontend/components/home/home.jsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _login_form_container = __webpack_require__(/*! ../session/login_form_container */ "./frontend/components/session/login_form_container.jsx");
+
+var _signup_form_container = __webpack_require__(/*! ../session/signup_form_container */ "./frontend/components/session/signup_form_container.jsx");
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Home = function Home() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h1',
+      null,
+      'Welcome!'
+    ),
+    'Log In to Access Tweets!',
+    _react2.default.createElement(_login_form_container.SessionFormContainer, null),
+    _react2.default.createElement('br', null),
+    'Don\'t have an account? Sign Up!',
+    _react2.default.createElement(_signup_form_container.SignUpFormContainer, null)
+  );
+};
+
+exports.default = Home;
 
 /***/ }),
 
@@ -547,7 +595,7 @@ var SessionForm = function (_Component) {
       e.preventDefault();
       var user = Object.assign({}, this.state);
       this.props.processForm(user).then(function (u) {
-        return _this2.props.history.push('/');
+        return _this2.props.history.push('/main');
       });
     }
   }, {
@@ -957,7 +1005,7 @@ var Auth = function Auth(_ref) {
       loggedIn = _ref.loggedIn,
       exact = _ref.exact;
   return _react2.default.createElement(_reactRouter.Route, { path: path, exact: exact, render: function render(props) {
-      return !loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/' });
+      return !loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/main' });
     } });
 };
 
@@ -967,7 +1015,7 @@ var Protected = function Protected(_ref2) {
       loggedIn = _ref2.loggedIn,
       exact = _ref2.exact;
   return _react2.default.createElement(_reactRouter.Route, { path: path, exact: exact, render: function render(props) {
-      return loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/login' });
+      return loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/session' });
     } });
 };
 

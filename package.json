@@ -32,7 +32,7 @@
     "start": "webpack --mode development --watch  ./frontend/entry.jsx --output ./app/assets/javascripts/wpk.js",
     "dev": "webpack --mode development ./frontend/entry.jsx --output ./app/assets/javascripts/wpk.js",
     "build": "webpack --mode production ./frontend/entry.jsx --output ./app/assets/javascripts/wpk.js",
-    "postinstall": "webpack --watch"
+    "postinstall": "webpack"
   },
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/maryseo070/TwitterChallenge#readme",
   "devDependencies": {
-    "webpack": "^4.8.3",
+    "webpack": "^4.9.1",
     "webpack-cli": "^2.1.4"
   }
 }

@@ -28,12 +28,12 @@ class Main extends Component {
       let date = tweet.created_at;
       date = Date.parse(date);
       date = new Date(date).toString();
-    return (
+      return (
         <section>
         <div>{tweet.text}</div>
         <div>{date}</div>
       </section>
-    );
+      );
     });
 
     return (
@@ -55,10 +55,13 @@ class Main extends Component {
 }
 
 Main.propType = {
-  tweets: PropTypes.array
+  tweets: PropTypes.array,
+  currentUser: PropTypes.object,
+  logout: PropTypes.func
 };
 Main.defaultProps = {
-  tweets: []
+  tweets: [],
+  currentUser: {}
 };
 
 

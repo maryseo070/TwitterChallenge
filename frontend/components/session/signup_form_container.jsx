@@ -2,6 +2,8 @@ import React from 'react';
 import { signup, clearErrors } from '../../actions/session_actions';
 import SessionForm from './session_form';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 
 const msp = state => {
   return {
@@ -16,4 +18,4 @@ const mdp = dispatch => {
   };
 };
 
-export const SignUpFormContainer = connect(msp, mdp)(SessionForm);
+export const SignUpFormContainer = withRouter(connect(msp, mdp)(SessionForm));

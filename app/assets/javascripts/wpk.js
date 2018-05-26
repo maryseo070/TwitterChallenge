@@ -226,7 +226,7 @@ var App = function App() {
     'div',
     null,
     _react2.default.createElement(_route_util.ProtectedRoute, { exact: true, path: '/main', component: _main_container2.default }),
-    _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/session', component: _home2.default })
+    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/session', component: _home2.default })
   );
 };
 
@@ -388,10 +388,13 @@ var Main = function (_Component) {
 }(_react.Component);
 
 Main.propType = {
-  tweets: _propTypes2.default.array
+  tweets: _propTypes2.default.array,
+  currentUser: _propTypes2.default.object,
+  logout: _propTypes2.default.func
 };
 Main.defaultProps = {
-  tweets: []
+  tweets: [],
+  currentUser: {}
 };
 
 exports.default = Main;
@@ -424,11 +427,14 @@ var _main2 = _interopRequireDefault(_main);
 
 var _client_actions = __webpack_require__(/*! ../../actions/client_actions */ "./frontend/actions/client_actions.js");
 
+var _session_actions = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var msp = function msp(state) {
   return {
-    tweets: Object.values(state.tweets)
+    tweets: Object.values(state.tweets),
+    currentUser: state.session.currentUser
   };
 };
 
@@ -436,6 +442,9 @@ var mdp = function mdp(dispatch) {
   return {
     searchHandles: function searchHandles(handle) {
       return dispatch((0, _client_actions.searchHandles)(handle));
+    },
+    logout: function logout() {
+      return dispatch((0, _session_actions.logout)());
     }
   };
 };
@@ -517,6 +526,8 @@ var _session_form2 = _interopRequireDefault(_session_form);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var msp = function msp(state) {
@@ -536,7 +547,7 @@ var mdp = function mdp(dispatch) {
   };
 };
 
-var SessionFormContainer = exports.SessionFormContainer = (0, _reactRedux.connect)(msp, mdp)(_session_form2.default);
+var SessionFormContainer = exports.SessionFormContainer = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(msp, mdp)(_session_form2.default));
 
 /***/ }),
 
@@ -682,6 +693,8 @@ var _session_form2 = _interopRequireDefault(_session_form);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var msp = function msp(state) {
@@ -701,7 +714,7 @@ var mdp = function mdp(dispatch) {
   };
 };
 
-var SignUpFormContainer = exports.SignUpFormContainer = (0, _reactRedux.connect)(msp, mdp)(_session_form2.default);
+var SignUpFormContainer = exports.SignUpFormContainer = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(msp, mdp)(_session_form2.default));
 
 /***/ }),
 
@@ -1005,7 +1018,7 @@ var Auth = function Auth(_ref) {
       loggedIn = _ref.loggedIn,
       exact = _ref.exact;
   return _react2.default.createElement(_reactRouter.Route, { path: path, exact: exact, render: function render(props) {
-      return !loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/main' });
+      return !loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/session' });
     } });
 };
 

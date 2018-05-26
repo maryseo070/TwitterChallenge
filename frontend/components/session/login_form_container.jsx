@@ -2,6 +2,7 @@ import React from 'react';
 import { login, clearErrors } from '../../actions/session_actions';
 import SessionForm from './session_form';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 const msp = state => {
   return {
@@ -16,4 +17,4 @@ const mdp = dispatch => {
   };
 };
 
-export const SessionFormContainer = connect(msp, mdp)(SessionForm);
+export const SessionFormContainer = withRouter(connect(msp, mdp)(SessionForm));

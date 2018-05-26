@@ -51,7 +51,9 @@ class Main extends Component {
 
 
         <form className="main-form" onSubmit={this.handleSubmit}>
-          <div>Type in a Twitter handle to get their last 25 tweets! (i.e., BarackObama)</div>
+          <div className="instructions">
+            Type in a Twitter handle to get their last 25 tweets! (i.e., BarackObama)
+          </div>
           <input
             className="input-text"
             type="text"

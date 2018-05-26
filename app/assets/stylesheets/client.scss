@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 button:focus {outline:0;}
-
+input:focus{ outline: none }
 .session-button-logout{
   float: right;
   width: 150px;
@@ -17,4 +17,9 @@ button:focus {outline:0;}
 .tweets{
   padding-left: 20%;
   padding-right: 20%
+}
+
+.instructions{
+  font-weight: bold;
+  font-size: 30px;
 }

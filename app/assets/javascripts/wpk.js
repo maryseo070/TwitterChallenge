@@ -496,7 +496,7 @@ var Main = function (_Component) {
             { className: 'main-form', onSubmit: this.handleSubmit },
             _react2.default.createElement(
               'div',
-              null,
+              { className: 'instructions' },
               'Type in a Twitter handle to get their last 25 tweets! (i.e., BarackObama)'
             ),
             _react2.default.createElement('input', {

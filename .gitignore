@@ -21,3 +21,6 @@ config.js
 
 # Ignore application configuration
 /config/application.yml
+
+wpk.js
+wpk.js.map

@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div>
       <ProtectedRoute exact path='/main' component={ Main } />
-      <Route exact path='/session' component={ HomeContainer } />
+      <Route exact path='/' component={ HomeContainer } />
     </div>
   );
 };

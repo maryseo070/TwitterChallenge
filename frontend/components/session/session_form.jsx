@@ -26,20 +26,22 @@ class SessionForm extends Component {
   render () {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form className="session-form" onSubmit={this.handleSubmit}>
           <input
+            className="input-text"
             type="text"
             value={this.state.username}
             placeholder="Username"
             onChange={this.updateField("username")}>
           </input>
           <input
+            className="input-text"
             type="password"
             value={this.state.password}
             placeholder="Password"
             onChange={this.updateField("password")}>
           </input>
-          <input type="submit"></input>
+          <input className="session-button" type="submit" value={this.props.formType}></input>
         </form>
       </div>
     );

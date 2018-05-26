@@ -12,7 +12,7 @@ class Home extends Component {
 
   renderErrors() {
       return(
-        <ul>
+        <ul className="session-errors">
           {this.props.errors.map((error, i) => (
             <li className="rendered-errors" key={`error-${i}`}>
               {error}
@@ -24,15 +24,23 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Welcome!</h1>
-        {this.renderErrors()}
-        Log In to Access Tweets!
-        <SessionFormContainer />
-        <br>
-        </br>
-        Don't have an account? Sign Up!
-        <SignUpFormContainer />
+      <div className="session-page">
+        <div className="bluespace"></div>
+
+        <div className="session-welcome">
+          <h1 className="welcome">Welcome!</h1>
+          <img
+            className="twit-pic"
+            src="https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png">
+          </img>
+          {this.renderErrors()}
+          Log In to Access Tweets!
+          <SessionFormContainer />
+          <br>
+          </br>
+          Don't have an account? Sign Up!
+          <SignUpFormContainer />
+        </div>
       </div>
     );
   }

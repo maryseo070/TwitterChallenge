@@ -1,6 +1,66 @@
 // Place all the styles related to the api/Sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-body {
-  font-family: Helvetica Neue;
+
+.session-errors{
+  color: red;
+}
+
+.session-page {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+}
+
+.bluespace {
+  background-color: #1da1f2;
+  width: 50%;
+  height: 100vh;
+}
+
+
+.session-welcome{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.welcome{
+  font-size: 30px;
+}
+
+.twit-pic{
+  height: 30px;
+  width: 30px;
+}
+
+.session-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.session-button{
+  color: white;
+  background-color: #1da1f2;
+  width: 270px;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 100px;
+  padding: 6px 16px;
+}
+.input-text{
+  width: 250px;
+  margin-bottom: 1px;
+  outline: none;
+  padding: 10px;
+  margin: 8px;
 }

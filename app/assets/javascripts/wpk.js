@@ -226,7 +226,7 @@ var App = function App() {
     'div',
     null,
     _react2.default.createElement(_route_util.ProtectedRoute, { exact: true, path: '/main', component: _main_container2.default }),
-    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/session', component: _home_container2.default })
+    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _home_container2.default })
   );
 };
 
@@ -287,7 +287,7 @@ var Home = function (_Component) {
     value: function renderErrors() {
       return _react2.default.createElement(
         'ul',
-        null,
+        { className: 'session-errors' },
         this.props.errors.map(function (error, i) {
           return _react2.default.createElement(
             'li',
@@ -302,18 +302,26 @@ var Home = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'session-page' },
+        _react2.default.createElement('div', { className: 'bluespace' }),
         _react2.default.createElement(
-          'h1',
-          null,
-          'Welcome!'
-        ),
-        this.renderErrors(),
-        'Log In to Access Tweets!',
-        _react2.default.createElement(_login_form_container.SessionFormContainer, null),
-        _react2.default.createElement('br', null),
-        'Don\'t have an account? Sign Up!',
-        _react2.default.createElement(_signup_form_container.SignUpFormContainer, null)
+          'div',
+          { className: 'session-welcome' },
+          _react2.default.createElement(
+            'h1',
+            { className: 'welcome' },
+            'Welcome!'
+          ),
+          _react2.default.createElement('img', {
+            className: 'twit-pic',
+            src: 'https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png' }),
+          this.renderErrors(),
+          'Log In to Access Tweets!',
+          _react2.default.createElement(_login_form_container.SessionFormContainer, null),
+          _react2.default.createElement('br', null),
+          'Don\'t have an account? Sign Up!',
+          _react2.default.createElement(_signup_form_container.SignUpFormContainer, null)
+        )
       );
     }
   }]);
@@ -624,7 +632,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var msp = function msp(state) {
   return {
-    errors: state.sessionErrors
+    errors: state.sessionErrors,
+    formType: "Log In"
   };
 };
 
@@ -717,18 +726,20 @@ var SessionForm = function (_Component) {
         null,
         _react2.default.createElement(
           "form",
-          { onSubmit: this.handleSubmit },
+          { className: "session-form", onSubmit: this.handleSubmit },
           _react2.default.createElement("input", {
+            className: "input-text",
             type: "text",
             value: this.state.username,
             placeholder: "Username",
             onChange: this.updateField("username") }),
           _react2.default.createElement("input", {
+            className: "input-text",
             type: "password",
             value: this.state.password,
             placeholder: "Password",
             onChange: this.updateField("password") }),
-          _react2.default.createElement("input", { type: "submit" })
+          _react2.default.createElement("input", { className: "session-button", type: "submit", value: this.props.formType })
         )
       );
     }
@@ -774,7 +785,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var msp = function msp(state) {
   return {
-    errors: state.sessionErrors
+    errors: state.sessionErrors,
+    formType: "Sign Up"
   };
 };
 
@@ -1093,7 +1105,7 @@ var Auth = function Auth(_ref) {
       loggedIn = _ref.loggedIn,
       exact = _ref.exact;
   return _react2.default.createElement(_reactRouter.Route, { path: path, exact: exact, render: function render(props) {
-      return !loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/session' });
+      return !loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/' });
     } });
 };
 
@@ -1103,7 +1115,7 @@ var Protected = function Protected(_ref2) {
       loggedIn = _ref2.loggedIn,
       exact = _ref2.exact;
   return _react2.default.createElement(_reactRouter.Route, { path: path, exact: exact, render: function render(props) {
-      return loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/session' });
+      return loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/' });
     } });
 };
 

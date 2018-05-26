@@ -226,7 +226,7 @@ var App = function App() {
     'div',
     null,
     _react2.default.createElement(_route_util.ProtectedRoute, { exact: true, path: '/main', component: _main_container2.default }),
-    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _home_container2.default })
+    _react2.default.createElement(_route_util.AuthRoute, { exact: true, path: '/', component: _home_container2.default })
   );
 };
 
@@ -424,6 +424,7 @@ var Main = function (_Component) {
     };
     _this.updateField = _this.updateField.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
 
@@ -443,15 +444,25 @@ var Main = function (_Component) {
       this.props.searchHandles(this.state.handle);
     }
   }, {
+    key: 'handleClick',
+    value: function handleClick(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      this.props.logout().then(function () {
+        return _this3.props.history.push('/');
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var retrievedTweets = this.props.tweets.map(function (tweet) {
+      var retrievedTweets = this.props.tweets.map(function (tweet, i) {
         var date = tweet.created_at;
         date = Date.parse(date);
         date = new Date(date).toString();
         return _react2.default.createElement(
-          'section',
-          null,
+          'li',
+          { key: i },
           _react2.default.createElement(
             'div',
             null,
@@ -466,20 +477,42 @@ var Main = function (_Component) {
       });
 
       return _react2.default.createElement(
-        'div',
+        'section',
         null,
-        'main',
         _react2.default.createElement(
-          'form',
-          { onSubmit: this.handleSubmit },
-          _react2.default.createElement('input', {
-            type: 'text',
-            placeholder: 'Twitter Handle to Search',
-            onChange: this.updateField(),
-            value: this.state.handle }),
-          _react2.default.createElement('input', { type: 'submit' })
+          'nav',
+          { className: 'top-nav' },
+          _react2.default.createElement(
+            'button',
+            { className: 'session-button-logout', onClick: this.handleClick },
+            'Log Out'
+          )
         ),
-        retrievedTweets
+        _react2.default.createElement(
+          'div',
+          { className: 'main' },
+          _react2.default.createElement(
+            'form',
+            { className: 'main-form', onSubmit: this.handleSubmit },
+            _react2.default.createElement(
+              'div',
+              null,
+              'Type in a Twitter handle to get their last 25 tweets! (i.e., BarackObama)'
+            ),
+            _react2.default.createElement('input', {
+              className: 'input-text',
+              type: 'text',
+              placeholder: 'Twitter Handle',
+              onChange: this.updateField(),
+              value: this.state.handle }),
+            _react2.default.createElement('input', { className: 'session-button', type: 'submit', value: 'Search' })
+          ),
+          _react2.default.createElement(
+            'ol',
+            { className: 'tweets' },
+            retrievedTweets
+          )
+        )
       );
     }
   }]);
@@ -529,6 +562,8 @@ var _client_actions = __webpack_require__(/*! ../../actions/client_actions */ ".
 
 var _session_actions = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var msp = function msp(state) {
@@ -549,7 +584,7 @@ var mdp = function mdp(dispatch) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(msp, mdp)(_main2.default);
+exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(msp, mdp)(_main2.default));
 
 /***/ }),
 
@@ -1105,7 +1140,7 @@ var Auth = function Auth(_ref) {
       loggedIn = _ref.loggedIn,
       exact = _ref.exact;
   return _react2.default.createElement(_reactRouter.Route, { path: path, exact: exact, render: function render(props) {
-      return !loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/' });
+      return !loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/main' });
     } });
 };
 
@@ -1118,7 +1153,6 @@ var Protected = function Protected(_ref2) {
       return loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouter.Redirect, { to: '/' });
     } });
 };
-
 var mapStateToProps = function mapStateToProps(state) {
   return { loggedIn: Boolean(state.session.currentUser) };
 };

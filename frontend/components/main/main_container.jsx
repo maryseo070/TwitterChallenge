@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Main from './main';
 import { searchHandles } from '../../actions/client_actions';
 import { logout } from '../../actions/session_actions';
-
+import { withRouter } from 'react-router-dom';
 const msp = state => {
   return {
     tweets: Object.values(state.tweets),
@@ -18,4 +18,4 @@ const mdp = dispatch => {
   };
 };
 
-export default connect(msp, mdp)(Main);
+export default withRouter(connect(msp, mdp)(Main));

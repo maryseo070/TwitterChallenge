@@ -1,3 +1,20 @@
 // Place all the styles related to the Client controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+button:focus {outline:0;}
+
+.session-button-logout{
+  float: right;
+  width: 150px;
+}
+
+.main-form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding: 0 10% 0 20%;
+}
+.tweets{
+  padding-left: 20%;
+  padding-right: 20%
+}

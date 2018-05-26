@@ -9,6 +9,7 @@ class Main extends Component {
     };
     this.updateField = this.updateField.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   updateField() {
@@ -22,34 +23,53 @@ class Main extends Component {
     this.props.searchHandles(this.state.handle);
   }
 
+  handleClick(e) {
+    e.preventDefault();
+    this.props.logout().then( ()=> this.props.history.push('/'));
+  }
 
   render () {
-    let retrievedTweets = this.props.tweets.map((tweet) => {
+    let retrievedTweets = this.props.tweets.map((tweet, i) => {
       let date = tweet.created_at;
       date = Date.parse(date);
       date = new Date(date).toString();
       return (
-        <section>
-        <div>{tweet.text}</div>
-        <div>{date}</div>
-      </section>
+        <li key={i}>
+          <div>{tweet.text}</div>
+          <div>{date}</div>
+        </li>
       );
     });
 
     return (
-      <div>main
-        <form onSubmit={this.handleSubmit}>
+      <section>
+      <nav className="top-nav">
+        <button className="session-button-logout" onClick={this.handleClick}>Log Out</button>
+      </nav>
+
+      <div className="main">
+
+
+        <form className="main-form" onSubmit={this.handleSubmit}>
+          <div>Type in a Twitter handle to get their last 25 tweets! (i.e., BarackObama)</div>
           <input
+            className="input-text"
             type="text"
-            placeholder="Twitter Handle to Search"
+            placeholder="Twitter Handle"
             onChange={this.updateField()}
             value={this.state.handle}>
           </input>
-          <input type="submit">
+          <input className="session-button" type="submit" value="Search">
           </input>
         </form>
-        {retrievedTweets}
+
+        <ol className="tweets">
+          {retrievedTweets}
+        </ol>
       </div>
+
+    </section>
+
     );
   }
 }

@@ -34,11 +34,13 @@ class Main extends Component {
       date = Date.parse(date);
       date = new Date(date).toString();
       return (
-        <li key={i}>
-          <div>{tweet.text}</div>
-          <div>{date}</div>
-        </li>
-      );
+        <div className="single-tweet">
+          <li key={i}>
+            <div>{tweet.text}</div>
+            <div className="tweet-date">{date}</div>
+          </li>
+        </div>
+        );
     });
 
     return (

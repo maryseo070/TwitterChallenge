@@ -32,7 +32,7 @@
     "start": "webpack --mode development --watch  ./frontend/entry.jsx --output ./app/assets/javascripts/wpk.js",
     "dev": "webpack --mode development ./frontend/entry.jsx --output ./app/assets/javascripts/wpk.js",
     "build": "webpack --mode production ./frontend/entry.jsx --output ./app/assets/javascripts/wpk.js",
-    "postinstall": "webpack"
+    "postinstall": "webpack --watch"
   },
   "repository": {
     "type": "git",

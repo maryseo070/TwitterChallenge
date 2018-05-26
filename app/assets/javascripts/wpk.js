@@ -461,17 +461,21 @@ var Main = function (_Component) {
         date = Date.parse(date);
         date = new Date(date).toString();
         return _react2.default.createElement(
-          'li',
-          { key: i },
+          'div',
+          { className: 'single-tweet' },
           _react2.default.createElement(
-            'div',
-            null,
-            tweet.text
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            date
+            'li',
+            { key: i },
+            _react2.default.createElement(
+              'div',
+              null,
+              tweet.text
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'tweet-date' },
+              date
+            )
           )
         );
       });

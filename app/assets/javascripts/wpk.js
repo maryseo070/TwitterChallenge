@@ -215,9 +215,9 @@ var _main_container2 = _interopRequireDefault(_main_container);
 
 var _signup_form_container = __webpack_require__(/*! ./session/signup_form_container */ "./frontend/components/session/signup_form_container.jsx");
 
-var _home = __webpack_require__(/*! ./home/home */ "./frontend/components/home/home.jsx");
+var _home_container = __webpack_require__(/*! ./home/home_container */ "./frontend/components/home/home_container.jsx");
 
-var _home2 = _interopRequireDefault(_home);
+var _home_container2 = _interopRequireDefault(_home_container);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -226,7 +226,7 @@ var App = function App() {
     'div',
     null,
     _react2.default.createElement(_route_util.ProtectedRoute, { exact: true, path: '/main', component: _main_container2.default }),
-    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/session', component: _home2.default })
+    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/session', component: _home_container2.default })
   );
 };
 
@@ -248,6 +248,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _login_form_container = __webpack_require__(/*! ../session/login_form_container */ "./frontend/components/session/login_form_container.jsx");
 
 var _signup_form_container = __webpack_require__(/*! ../session/signup_form_container */ "./frontend/components/session/signup_form_container.jsx");
@@ -256,26 +258,116 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Home = function Home() {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      'h1',
-      null,
-      'Welcome!'
-    ),
-    'Log In to Access Tweets!',
-    _react2.default.createElement(_login_form_container.SessionFormContainer, null),
-    _react2.default.createElement('br', null),
-    'Don\'t have an account? Sign Up!',
-    _react2.default.createElement(_signup_form_container.SignUpFormContainer, null)
-  );
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Home = function (_Component) {
+  _inherits(Home, _Component);
+
+  function Home(props) {
+    _classCallCheck(this, Home);
+
+    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+    _this.renderErrors = _this.renderErrors.bind(_this);
+    return _this;
+  }
+
+  _createClass(Home, [{
+    key: 'renderErrors',
+    value: function renderErrors() {
+      return _react2.default.createElement(
+        'ul',
+        null,
+        this.props.errors.map(function (error, i) {
+          return _react2.default.createElement(
+            'li',
+            { className: 'rendered-errors', key: 'error-' + i },
+            error
+          );
+        })
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Welcome!'
+        ),
+        this.renderErrors(),
+        'Log In to Access Tweets!',
+        _react2.default.createElement(_login_form_container.SessionFormContainer, null),
+        _react2.default.createElement('br', null),
+        'Don\'t have an account? Sign Up!',
+        _react2.default.createElement(_signup_form_container.SignUpFormContainer, null)
+      );
+    }
+  }]);
+
+  return Home;
+}(_react.Component);
+
+Home.propTyoe = {
+  errors: _propTypes2.default.array
+};
+
+Home.defaultProps = {
+  errors: []
 };
 
 exports.default = Home;
+
+/***/ }),
+
+/***/ "./frontend/components/home/home_container.jsx":
+/*!*****************************************************!*\
+  !*** ./frontend/components/home/home_container.jsx ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _home = __webpack_require__(/*! ./home */ "./frontend/components/home/home.jsx");
+
+var _home2 = _interopRequireDefault(_home);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var msp = function msp(state) {
+  return {
+    errors: state.sessionErrors
+  };
+};
+
+exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(msp, null)(_home2.default));
 
 /***/ }),
 
@@ -594,7 +686,6 @@ var SessionForm = function (_Component) {
       password: ""
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.renderErrors = _this.renderErrors.bind(_this);
     return _this;
   }
 
@@ -619,27 +710,11 @@ var SessionForm = function (_Component) {
       };
     }
   }, {
-    key: "renderErrors",
-    value: function renderErrors() {
-      return _react2.default.createElement(
-        "ul",
-        null,
-        this.props.errors.map(function (error, i) {
-          return _react2.default.createElement(
-            "li",
-            { className: "rendered-errors", key: "error-" + i },
-            error
-          );
-        })
-      );
-    }
-  }, {
     key: "render",
     value: function render() {
       return _react2.default.createElement(
         "div",
         null,
-        this.renderErrors(),
         _react2.default.createElement(
           "form",
           { onSubmit: this.handleSubmit },

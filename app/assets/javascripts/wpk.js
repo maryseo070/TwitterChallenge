@@ -84,7 +84,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.searchHandles = exports.receiveTweets = exports.RECEIVE_TWEETS = undefined;
+exports.receiveErrors = exports.searchHandles = exports.receiveTweets = exports.RECEIVE_TWITTER_ERRORS = exports.RECEIVE_TWEETS = undefined;
 
 var _client_api_util = __webpack_require__(/*! ../util/client_api_util */ "./frontend/util/client_api_util.js");
 
@@ -93,6 +93,7 @@ var ClientAPIUtil = _interopRequireWildcard(_client_api_util);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var RECEIVE_TWEETS = exports.RECEIVE_TWEETS = "RECEIVE_TWEETS";
+var RECEIVE_TWITTER_ERRORS = exports.RECEIVE_TWITTER_ERRORS = 'RECEIVE_TWITTER_ERRORS';
 
 var receiveTweets = exports.receiveTweets = function receiveTweets(tweets) {
   return {
@@ -104,8 +105,17 @@ var receiveTweets = exports.receiveTweets = function receiveTweets(tweets) {
 var searchHandles = exports.searchHandles = function searchHandles(handle) {
   return function (dispatch) {
     return ClientAPIUtil.searchHandles(handle).then(function (tweets) {
-      return dispatch(receiveTweets(tweets));
+      return dispatch(receiveTweets(tweets), function (errors) {
+        return dispatch(receiveErrors(errors));
+      });
     });
+  };
+};
+
+var receiveErrors = exports.receiveErrors = function receiveErrors(errors) {
+  return {
+    type: RECEIVE_TWITTER_ERRORS,
+    errors: errors
   };
 };
 
@@ -384,157 +394,9 @@ exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(msp, 
   !*** ./frontend/components/main/main.jsx ***!
   \*******************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Main = function (_Component) {
-  _inherits(Main, _Component);
-
-  function Main(props) {
-    _classCallCheck(this, Main);
-
-    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
-
-    _this.state = {
-      handle: ""
-    };
-    _this.updateField = _this.updateField.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.handleClick = _this.handleClick.bind(_this);
-    return _this;
-  }
-
-  _createClass(Main, [{
-    key: 'updateField',
-    value: function updateField() {
-      var _this2 = this;
-
-      return function (e) {
-        _this2.setState({ handle: e.currentTarget.value });
-      };
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(e) {
-      e.preventDefault();
-      this.props.searchHandles(this.state.handle);
-    }
-  }, {
-    key: 'handleClick',
-    value: function handleClick(e) {
-      var _this3 = this;
-
-      e.preventDefault();
-      this.props.logout().then(function () {
-        return _this3.props.history.push('/');
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var retrievedTweets = this.props.tweets.map(function (tweet, i) {
-        var date = tweet.created_at;
-        date = Date.parse(date);
-        date = new Date(date).toString();
-        return _react2.default.createElement(
-          'div',
-          { className: 'single-tweet' },
-          _react2.default.createElement(
-            'li',
-            { key: i },
-            _react2.default.createElement(
-              'div',
-              null,
-              tweet.text
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'tweet-date' },
-              date
-            )
-          )
-        );
-      });
-
-      return _react2.default.createElement(
-        'section',
-        null,
-        _react2.default.createElement(
-          'nav',
-          { className: 'top-nav' },
-          _react2.default.createElement(
-            'button',
-            { className: 'session-button-logout', onClick: this.handleClick },
-            'Log Out'
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'main' },
-          _react2.default.createElement(
-            'form',
-            { className: 'main-form', onSubmit: this.handleSubmit },
-            _react2.default.createElement(
-              'div',
-              { className: 'instructions' },
-              'Type in a Twitter handle to get their last 25 tweets! (i.e., BarackObama)'
-            ),
-            _react2.default.createElement('input', {
-              className: 'input-text',
-              type: 'text',
-              placeholder: 'Twitter Handle',
-              onChange: this.updateField(),
-              value: this.state.handle }),
-            _react2.default.createElement('input', { className: 'session-button', type: 'submit', value: 'Search' })
-          ),
-          _react2.default.createElement(
-            'ol',
-            { className: 'tweets' },
-            retrievedTweets
-          )
-        )
-      );
-    }
-  }]);
-
-  return Main;
-}(_react.Component);
-
-Main.propType = {
-  tweets: _propTypes2.default.array,
-  currentUser: _propTypes2.default.object,
-  logout: _propTypes2.default.func
-};
-Main.defaultProps = {
-  tweets: [],
-  currentUser: {}
-};
-
-exports.default = Main;
+throw new Error("Module build failed: SyntaxError: Unexpected token (37:4)\n\n\u001b[0m \u001b[90m 35 | \u001b[39m    tweet\u001b[33m.\u001b[39mtext\u001b[33m.\u001b[39mmap( word \u001b[33m=>\u001b[39m {\n \u001b[90m 36 | \u001b[39m      \u001b[36mif\u001b[39m (word[\u001b[35m0\u001b[39m] \u001b[33m===\u001b[39m \u001b[32m\"@\"\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 | \u001b[39m    })\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 | \u001b[39m  }\n \u001b[90m 39 | \u001b[39m\n \u001b[90m 40 | \u001b[39m  userMentions(tweet) {\u001b[0m\n");
 
 /***/ }),
 
@@ -926,6 +788,40 @@ exports.default = clientsReducer;
 
 /***/ }),
 
+/***/ "./frontend/reducers/errors_Reducer.js":
+/*!*********************************************!*\
+  !*** ./frontend/reducers/errors_Reducer.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _client_actions = __webpack_require__(/*! ../actions/client_actions */ "./frontend/actions/client_actions.js");
+
+var twitterErrorsReducer = function twitterErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  var defaultErrors = [];
+  Object.freeze(state);
+  switch (action.type) {
+    case _client_actions.RECEIVE_TWITTER_ERRORS:
+      return action.errors.responseJSON;
+    default:
+      return defaultErrors;
+  }
+};
+
+exports.default = twitterErrorsReducer;
+
+/***/ }),
+
 /***/ "./frontend/reducers/root_reducer.js":
 /*!*******************************************!*\
   !*** ./frontend/reducers/root_reducer.js ***!
@@ -954,14 +850,20 @@ var _clients_reducer = __webpack_require__(/*! ./clients_reducer */ "./frontend/
 
 var _clients_reducer2 = _interopRequireDefault(_clients_reducer);
 
+var _errors_Reducer = __webpack_require__(/*! ./errors_Reducer */ "./frontend/reducers/errors_Reducer.js");
+
+var _errors_Reducer2 = _interopRequireDefault(_errors_Reducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import errorsReducer from './errors_reducer';
 var rootReducer = (0, _redux.combineReducers)({
   session: _sessions_reducer2.default,
   sessionErrors: _session_errors_reducer2.default,
-  tweets: _clients_reducer2.default
+  tweets: _clients_reducer2.default,
+  errors: _errors_Reducer2.default
 });
-// import errorsReducer from './errors_reducer';
+
 exports.default = rootReducer;
 
 /***/ }),

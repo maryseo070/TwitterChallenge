@@ -1,4 +1,6 @@
 require 'twitter'
+require 'twitter/entities'
+
 
 class Api::ClientsController < ApplicationController
 
@@ -23,7 +25,7 @@ class Api::ClientsController < ApplicationController
       config.access_token_secret = ENV["access_token_secret"]
     end
     @tweets = @client.user_timeline(handle, count: 25)
-
+    
     render :index
   end
 

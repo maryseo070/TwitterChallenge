@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Main extends Component {
   constructor(props){
@@ -10,6 +11,8 @@ class Main extends Component {
     this.updateField = this.updateField.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.renderTweets = this.renderTweets.bind(this);
+    this.userMentions = this.userMentions.bind(this);
   }
 
   updateField() {
@@ -28,20 +31,53 @@ class Main extends Component {
     this.props.logout().then( ()=> this.props.history.push('/'));
   }
 
-  render () {
+  parseMentions(tweet) {
+    tweet.text.map( word => {
+      if (word[0] === "@")
+    });
+  }
+
+  userMentions(tweet) {
+    let mentions = [];
+    if (tweet.user_mentions.length > 0) {
+      tweet.user_mentions.map( m => mentions.push(m.screen_name) );
+    }
+    return mentions.map ( m => {
+      return (
+        <div>
+          <a href={`https://twitter.com/${m}`} target="_blank" >{m}</a>
+          <br></br>
+        </div>
+      );
+    });
+  }
+
+  renderTweets() {
     let retrievedTweets = this.props.tweets.map((tweet, i) => {
       let date = tweet.created_at;
       date = Date.parse(date);
       date = new Date(date).toString();
+
+      let mentions = this.userMentions(tweet);
+
       return (
-        <div className="single-tweet">
-          <li key={i}>
+        <div className="single-tweet" key={i}>
+          <li>
             <div>{tweet.text}</div>
             <div className="tweet-date">{date}</div>
+
+            {this.userMentions(tweet)}
+
+            <a></a>
           </li>
         </div>
-        );
+      );
     });
+
+    return retrievedTweets;
+  }
+
+  render () {
 
     return (
       <section>
@@ -54,7 +90,7 @@ class Main extends Component {
 
         <form className="main-form" onSubmit={this.handleSubmit}>
           <div className="instructions">
-            Type in a Twitter handle to get their last 25 tweets! (i.e., BarackObama)
+            Type in a Twitter handle to get their last 25 tweets! (i.e., MichelleObama)
           </div>
           <input
             className="input-text"
@@ -68,7 +104,7 @@ class Main extends Component {
         </form>
 
         <ol className="tweets">
-          {retrievedTweets}
+          {this.renderTweets()}
         </ol>
       </div>
 

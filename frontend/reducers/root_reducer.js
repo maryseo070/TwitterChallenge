@@ -3,11 +3,13 @@ import {combineReducers} from 'redux';
 import sessionsReducer from './sessions_reducer';
 import sessionErrorsReducer from './session_errors_reducer';
 import clientsReducer from './clients_reducer';
+import twitterErrorsReducer from './errors_Reducer';
 
 const rootReducer = combineReducers({
   session: sessionsReducer,
   sessionErrors: sessionErrorsReducer,
-  tweets: clientsReducer
+  tweets: clientsReducer,
+  errors: twitterErrorsReducer
 });
 
 export default rootReducer;

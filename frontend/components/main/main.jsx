@@ -31,11 +31,6 @@ class Main extends Component {
     this.props.logout().then( ()=> this.props.history.push('/'));
   }
 
-  parseMentions(tweet) {
-    tweet.text.map( word => {
-      if (word[0] === "@")
-    });
-  }
 
   userMentions(tweet) {
     let mentions = [];
@@ -51,6 +46,7 @@ class Main extends Component {
       );
     });
   }
+
 
   renderTweets() {
     let retrievedTweets = this.props.tweets.map((tweet, i) => {

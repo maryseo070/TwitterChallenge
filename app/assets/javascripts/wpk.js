@@ -394,9 +394,196 @@ exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(msp, 
   !*** ./frontend/components/main/main.jsx ***!
   \*******************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: Unexpected token (37:4)\n\n\u001b[0m \u001b[90m 35 | \u001b[39m    tweet\u001b[33m.\u001b[39mtext\u001b[33m.\u001b[39mmap( word \u001b[33m=>\u001b[39m {\n \u001b[90m 36 | \u001b[39m      \u001b[36mif\u001b[39m (word[\u001b[35m0\u001b[39m] \u001b[33m===\u001b[39m \u001b[32m\"@\"\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 | \u001b[39m    })\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 | \u001b[39m  }\n \u001b[90m 39 | \u001b[39m\n \u001b[90m 40 | \u001b[39m  userMentions(tweet) {\u001b[0m\n");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Main = function (_Component) {
+  _inherits(Main, _Component);
+
+  function Main(props) {
+    _classCallCheck(this, Main);
+
+    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+
+    _this.state = {
+      handle: ""
+    };
+    _this.updateField = _this.updateField.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.renderTweets = _this.renderTweets.bind(_this);
+    _this.userMentions = _this.userMentions.bind(_this);
+    return _this;
+  }
+
+  _createClass(Main, [{
+    key: 'updateField',
+    value: function updateField() {
+      var _this2 = this;
+
+      return function (e) {
+        _this2.setState({ handle: e.currentTarget.value });
+      };
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      this.props.searchHandles(this.state.handle);
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      this.props.logout().then(function () {
+        return _this3.props.history.push('/');
+      });
+    }
+  }, {
+    key: 'userMentions',
+    value: function userMentions(tweet) {
+      var mentions = [];
+      if (tweet.user_mentions.length > 0) {
+        tweet.user_mentions.map(function (m) {
+          return mentions.push(m.screen_name);
+        });
+      }
+      return mentions.map(function (m) {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'a',
+            { href: 'https://twitter.com/' + m, target: '_blank' },
+            m
+          ),
+          _react2.default.createElement('br', null)
+        );
+      });
+    }
+  }, {
+    key: 'renderTweets',
+    value: function renderTweets() {
+      var _this4 = this;
+
+      var retrievedTweets = this.props.tweets.map(function (tweet, i) {
+        var date = tweet.created_at;
+        date = Date.parse(date);
+        date = new Date(date).toString();
+
+        var mentions = _this4.userMentions(tweet);
+
+        return _react2.default.createElement(
+          'div',
+          { className: 'single-tweet', key: i },
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'div',
+              null,
+              tweet.text
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'tweet-date' },
+              date
+            ),
+            _this4.userMentions(tweet),
+            _react2.default.createElement('a', null)
+          )
+        );
+      });
+
+      return retrievedTweets;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+
+      return _react2.default.createElement(
+        'section',
+        null,
+        _react2.default.createElement(
+          'nav',
+          { className: 'top-nav' },
+          _react2.default.createElement(
+            'button',
+            { className: 'session-button-logout', onClick: this.handleClick },
+            'Log Out'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'main' },
+          _react2.default.createElement(
+            'form',
+            { className: 'main-form', onSubmit: this.handleSubmit },
+            _react2.default.createElement(
+              'div',
+              { className: 'instructions' },
+              'Type in a Twitter handle to get their last 25 tweets! (i.e., MichelleObama)'
+            ),
+            _react2.default.createElement('input', {
+              className: 'input-text',
+              type: 'text',
+              placeholder: 'Twitter Handle',
+              onChange: this.updateField(),
+              value: this.state.handle }),
+            _react2.default.createElement('input', { className: 'session-button', type: 'submit', value: 'Search' })
+          ),
+          _react2.default.createElement(
+            'ol',
+            { className: 'tweets' },
+            this.renderTweets()
+          )
+        )
+      );
+    }
+  }]);
+
+  return Main;
+}(_react.Component);
+
+Main.propType = {
+  tweets: _propTypes2.default.array,
+  currentUser: _propTypes2.default.object,
+  logout: _propTypes2.default.func
+};
+Main.defaultProps = {
+  tweets: [],
+  currentUser: {}
+};
+
+exports.default = Main;
 
 /***/ }),
 

@@ -244,6 +244,55 @@ exports.default = App;
 
 /***/ }),
 
+/***/ "./frontend/components/home/footer.jsx":
+/*!*********************************************!*\
+  !*** ./frontend/components/home/footer.jsx ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Footer = function Footer() {
+
+  return _react2.default.createElement(
+    "section",
+    { className: "footer-section" },
+    _react2.default.createElement(
+      "div",
+      null,
+      "Made by Mary Seo "
+    ),
+    _react2.default.createElement(
+      "a",
+      { href: "https://github.com/maryseo070/TwitterChallenge",
+        className: "footer-link" },
+      "Github Repo"
+    ),
+    _react2.default.createElement(
+      "a",
+      { href: "http://maryseo.net/",
+        className: "footer-link" },
+      "Personal Site"
+    )
+  );
+};
+
+exports.default = Footer;
+
+/***/ }),
+
 /***/ "./frontend/components/home/home.jsx":
 /*!*******************************************!*\
   !*** ./frontend/components/home/home.jsx ***!
@@ -271,6 +320,10 @@ var _react2 = _interopRequireDefault(_react);
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _footer = __webpack_require__(/*! ./footer */ "./frontend/components/home/footer.jsx");
+
+var _footer2 = _interopRequireDefault(_footer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -330,7 +383,8 @@ var Home = function (_Component) {
           _react2.default.createElement(_login_form_container.SessionFormContainer, null),
           _react2.default.createElement('br', null),
           'Don\'t have an account? Sign Up!',
-          _react2.default.createElement(_signup_form_container.SignUpFormContainer, null)
+          _react2.default.createElement(_signup_form_container.SignUpFormContainer, null),
+          _react2.default.createElement(_footer2.default, null)
         )
       );
     }
